@@ -6,19 +6,15 @@ namespace Foundatio.Collections
 {
     internal static class CollectionHelpers
     {
-        private sealed class NongenericCollectionWrapper<T> : IReadOnlyCollection<T>, IEnumerable<T>, IEnumerable
+        private sealed class NonGenericCollectionWrapper<T> : IReadOnlyCollection<T>, IEnumerable<T>, IEnumerable
         {
             private readonly ICollection _collection;
 
             public int Count => _collection.Count;
 
-            public NongenericCollectionWrapper(ICollection collection)
+            public NonGenericCollectionWrapper(ICollection collection)
             {
-                if (collection == null)
-                {
-                    throw new ArgumentNullException("collection");
-                }
-                _collection = collection;
+                _collection = collection ?? throw new ArgumentNullException(nameof(collection));
             }
 
             public IEnumerator<T> GetEnumerator()
@@ -43,11 +39,7 @@ namespace Foundatio.Collections
 
             public CollectionWrapper(ICollection<T> collection)
             {
-                if (collection == null)
-                {
-                    throw new ArgumentNullException("collection");
-                }
-                _collection = collection;
+                _collection = collection ?? throw new ArgumentNullException(nameof(collection));
             }
 
             public IEnumerator<T> GetEnumerator()
@@ -65,7 +57,7 @@ namespace Foundatio.Collections
         {
             if (source == null)
             {
-                throw new ArgumentNullException("source");
+                throw new ArgumentNullException(nameof(source));
             }
             IReadOnlyCollection<T> result;
             if ((result = (source as IReadOnlyCollection<T>)) != null)
@@ -80,7 +72,7 @@ namespace Foundatio.Collections
             ICollection collection2;
             if ((collection2 = (source as ICollection)) != null)
             {
-                return new NongenericCollectionWrapper<T>(collection2);
+                return new NonGenericCollectionWrapper<T>(collection2);
             }
             return new List<T>(source);
         }

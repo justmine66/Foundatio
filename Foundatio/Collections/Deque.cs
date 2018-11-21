@@ -12,20 +12,14 @@ namespace Foundatio.Collections
         [DebuggerNonUserCode]
         private sealed class DebugView
         {
-            private readonly Deque<T> deque;
+            private readonly Deque<T> _deque;
 
             [DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
-            public T[] Items
-            {
-                get
-                {
-                    return deque.ToArray();
-                }
-            }
+            public T[] Items => _deque.ToArray();
 
             public DebugView(Deque<T> deque)
             {
-                this.deque = deque;
+                _deque = deque;
             }
         }
 
@@ -35,13 +29,7 @@ namespace Foundatio.Collections
 
         private int _offset;
 
-        bool ICollection<T>.IsReadOnly
-        {
-            get
-            {
-                return false;
-            }
-        }
+        bool ICollection<T>.IsReadOnly => false;
 
         public T this[int index]
         {
@@ -57,57 +45,30 @@ namespace Foundatio.Collections
             }
         }
 
-        bool IList.IsFixedSize
-        {
-            get
-            {
-                return false;
-            }
-        }
+        bool IList.IsFixedSize => false;
 
-        bool IList.IsReadOnly
-        {
-            get
-            {
-                return false;
-            }
-        }
+        bool IList.IsReadOnly => false;
 
         object IList.this[int index]
         {
-            get
-            {
-                return this[index];
-            }
+            get => this[index];
             set
             {
                 if (value == null && default(T) != null)
                 {
-                    throw new ArgumentNullException("value", "Value cannot be null.");
+                    throw new ArgumentNullException(nameof(value), "Value cannot be null.");
                 }
                 if (!IsT(value))
                 {
-                    throw new ArgumentException("Value is of incorrect type.", "value");
+                    throw new ArgumentException("Value is of incorrect type.", nameof(value));
                 }
                 this[index] = (T)value;
             }
         }
 
-        bool ICollection.IsSynchronized
-        {
-            get
-            {
-                return false;
-            }
-        }
+        bool ICollection.IsSynchronized => false;
 
-        object ICollection.SyncRoot
-        {
-            get
-            {
-                return this;
-            }
-        }
+        object ICollection.SyncRoot => this;
 
         private bool IsEmpty => Count == 0;
 
@@ -117,15 +78,12 @@ namespace Foundatio.Collections
 
         public int Capacity
         {
-            get
-            {
-                return _buffer.Length;
-            }
+            get => _buffer.Length;
             set
             {
                 if (value < Count)
                 {
-                    throw new ArgumentOutOfRangeException("value", "Capacity cannot be set to a value less than Count");
+                    throw new ArgumentOutOfRangeException(nameof(value), "Capacity cannot be set to a value less than Count");
                 }
                 if (value != _buffer.Length)
                 {
@@ -147,7 +105,7 @@ namespace Foundatio.Collections
         {
             if (capacity < 0)
             {
-                throw new ArgumentOutOfRangeException("capacity", "Capacity may not be negative.");
+                throw new ArgumentOutOfRangeException(nameof(capacity), "Capacity may not be negative.");
             }
             _buffer = new T[capacity];
         }
@@ -156,10 +114,10 @@ namespace Foundatio.Collections
         {
             if (collection == null)
             {
-                throw new ArgumentNullException("collection");
+                throw new ArgumentNullException(nameof(collection));
             }
-            IReadOnlyCollection<T> readOnlyCollection = CollectionHelpers.ReifyCollection<T>(collection);
-            int count = readOnlyCollection.Count;
+            var readOnlyCollection = CollectionHelpers.ReifyCollection<T>(collection);
+            var count = readOnlyCollection.Count;
             if (count > 0)
             {
                 _buffer = new T[count];
@@ -190,13 +148,13 @@ namespace Foundatio.Collections
 
         public int IndexOf(T item)
         {
-            EqualityComparer<T> @default = EqualityComparer<T>.Default;
-            int num = 0;
-            using (IEnumerator<T> enumerator = GetEnumerator())
+            var @default = EqualityComparer<T>.Default;
+            var num = 0;
+            using (var enumerator = GetEnumerator())
             {
                 while (enumerator.MoveNext())
                 {
-                    T current = enumerator.Current;
+                    var current = enumerator.Current;
                     if (@default.Equals(item, current))
                     {
                         return num;
@@ -214,12 +172,12 @@ namespace Foundatio.Collections
 
         bool ICollection<T>.Contains(T item)
         {
-            EqualityComparer<T> @default = EqualityComparer<T>.Default;
-            using (IEnumerator<T> enumerator = GetEnumerator())
+            var @default = EqualityComparer<T>.Default;
+            using (var enumerator = GetEnumerator())
             {
                 while (enumerator.MoveNext())
                 {
-                    T current = enumerator.Current;
+                    var current = enumerator.Current;
                     if (@default.Equals(item, current))
                     {
                         return true;
@@ -233,9 +191,9 @@ namespace Foundatio.Collections
         {
             if (array == null)
             {
-                throw new ArgumentNullException("array");
+                throw new ArgumentNullException(nameof(array));
             }
-            int count = Count;
+            var count = Count;
             CheckRangeArguments(array.Length, arrayIndex, count);
             CopyToArray(array, arrayIndex);
         }
@@ -244,11 +202,11 @@ namespace Foundatio.Collections
         {
             if (array == null)
             {
-                throw new ArgumentNullException("array");
+                throw new ArgumentNullException(nameof(array));
             }
             if (IsSplit)
             {
-                int num = Capacity - _offset;
+                var num = Capacity - _offset;
                 Array.Copy(_buffer, _offset, array, arrayIndex, num);
                 Array.Copy(_buffer, 0, array, arrayIndex + num, Count - num);
             }
@@ -260,7 +218,7 @@ namespace Foundatio.Collections
 
         public bool Remove(T item)
         {
-            int num = IndexOf(item);
+            var num = IndexOf(item);
             if (num == -1)
             {
                 return false;
@@ -271,9 +229,9 @@ namespace Foundatio.Collections
 
         public IEnumerator<T> GetEnumerator()
         {
-            int count = this.Count;
+            var count = this.Count;
             int num;
-            for (int i = 0; i != count; i = num)
+            for (var i = 0; i != count; i = num)
             {
                 yield return this.DoGetItem(i);
                 num = i + 1;
@@ -302,11 +260,11 @@ namespace Foundatio.Collections
         {
             if (value == null && default(T) != null)
             {
-                throw new ArgumentNullException("value", "Value cannot be null.");
+                throw new ArgumentNullException(nameof(value), "Value cannot be null.");
             }
             if (!IsT(value))
             {
-                throw new ArgumentException("Value is of incorrect type.", "value");
+                throw new ArgumentException("Value is of incorrect type.", nameof(value));
             }
             AddToBack((T)value);
             return Count - 1;
@@ -334,11 +292,11 @@ namespace Foundatio.Collections
         {
             if (value == null && default(T) != null)
             {
-                throw new ArgumentNullException("value", "Value cannot be null.");
+                throw new ArgumentNullException(nameof(value), "Value cannot be null.");
             }
             if (!IsT(value))
             {
-                throw new ArgumentException("Value is of incorrect type.", "value");
+                throw new ArgumentException("Value is of incorrect type.", nameof(value));
             }
             Insert(index, (T)value);
         }
@@ -355,7 +313,7 @@ namespace Foundatio.Collections
         {
             if (array == null)
             {
-                throw new ArgumentNullException("array", "Destination array cannot be null.");
+                throw new ArgumentNullException(nameof(array), "Destination array cannot be null.");
             }
             CheckRangeArguments(array.Length, index, Count);
             try
@@ -364,11 +322,11 @@ namespace Foundatio.Collections
             }
             catch (ArrayTypeMismatchException innerException)
             {
-                throw new ArgumentException("Destination array is of incorrect type.", "array", innerException);
+                throw new ArgumentException("Destination array is of incorrect type.", nameof(array), innerException);
             }
             catch (RankException innerException2)
             {
-                throw new ArgumentException("Destination array must be single dimensional.", "array", innerException2);
+                throw new ArgumentException("Destination array must be single dimensional.", nameof(array), innerException2);
             }
         }
 
@@ -376,7 +334,7 @@ namespace Foundatio.Collections
         {
             if (index < 0 || index > sourceLength)
             {
-                throw new ArgumentOutOfRangeException("index", "Invalid new index " + index + " for source length " + sourceLength);
+                throw new ArgumentOutOfRangeException(nameof(index), "Invalid new index " + index + " for source length " + sourceLength);
             }
         }
 
@@ -384,7 +342,7 @@ namespace Foundatio.Collections
         {
             if (index < 0 || index >= sourceLength)
             {
-                throw new ArgumentOutOfRangeException("index", "Invalid existing index " + index + " for source length " + sourceLength);
+                throw new ArgumentOutOfRangeException(nameof(index), "Invalid existing index " + index + " for source length " + sourceLength);
             }
         }
 
@@ -392,11 +350,11 @@ namespace Foundatio.Collections
         {
             if (offset < 0)
             {
-                throw new ArgumentOutOfRangeException("offset", "Invalid offset " + offset);
+                throw new ArgumentOutOfRangeException(nameof(offset), "Invalid offset " + offset);
             }
             if (count < 0)
             {
-                throw new ArgumentOutOfRangeException("count", "Invalid count " + count);
+                throw new ArgumentOutOfRangeException(nameof(count), "Invalid count " + count);
             }
             if (sourceLength - offset < count)
             {
@@ -457,7 +415,7 @@ namespace Foundatio.Collections
 
         private int PostIncrement(int value)
         {
-            int offset = _offset;
+            var offset = _offset;
             _offset += value;
             _offset %= Capacity;
             return offset;
@@ -476,35 +434,35 @@ namespace Foundatio.Collections
         private void DoAddToBack(T value)
         {
             _buffer[DequeIndexToBufferIndex(Count)] = value;
-            int num = ++Count;
+            var num = ++Count;
         }
 
         private void DoAddToFront(T value)
         {
             _buffer[PreDecrement(1)] = value;
-            int num = ++Count;
+            var num = ++Count;
         }
 
         private T DoRemoveFromBack()
         {
             T result = _buffer[DequeIndexToBufferIndex(Count - 1)];
-            int num = --Count;
+            var num = --Count;
             return result;
         }
 
         private T DoRemoveFromFront()
         {
-            int num = --Count;
+            var num = --Count;
             return _buffer[PostIncrement(1)];
         }
 
         private void DoInsertRange(int index, IReadOnlyCollection<T> collection)
         {
-            int count = collection.Count;
+            var count = collection.Count;
             if (index < Count / 2)
             {
-                int num = Capacity - count;
-                for (int i = 0; i != index; i++)
+                var num = Capacity - count;
+                for (var i = 0; i != index; i++)
                 {
                     _buffer[DequeIndexToBufferIndex(num + i)] = _buffer[DequeIndexToBufferIndex(i)];
                 }
@@ -512,15 +470,15 @@ namespace Foundatio.Collections
             }
             else
             {
-                int num2 = Count - index;
-                int num3 = index + count;
-                for (int num4 = num2 - 1; num4 != -1; num4--)
+                var num2 = Count - index;
+                var num3 = index + count;
+                for (var num4 = num2 - 1; num4 != -1; num4--)
                 {
                     _buffer[DequeIndexToBufferIndex(num3 + num4)] = _buffer[DequeIndexToBufferIndex(index + num4)];
                 }
             }
-            int num5 = index;
-            foreach (T item in collection)
+            var num5 = index;
+            foreach (var item in collection)
             {
                 _buffer[DequeIndexToBufferIndex(num5)] = item;
                 num5++;
@@ -543,7 +501,7 @@ namespace Foundatio.Collections
             {
                 if (index + collectionCount / 2 < Count / 2)
                 {
-                    for (int num = index - 1; num != -1; num--)
+                    for (var num = index - 1; num != -1; num--)
                     {
                         _buffer[DequeIndexToBufferIndex(collectionCount + num)] = _buffer[DequeIndexToBufferIndex(num)];
                     }
@@ -551,9 +509,9 @@ namespace Foundatio.Collections
                 }
                 else
                 {
-                    int num2 = Count - collectionCount - index;
-                    int num3 = index + collectionCount;
-                    for (int i = 0; i != num2; i++)
+                    var num2 = Count - collectionCount - index;
+                    var num3 = index + collectionCount;
+                    for (var i = 0; i != num2; i++)
                     {
                         _buffer[DequeIndexToBufferIndex(index + i)] = _buffer[DequeIndexToBufferIndex(num3 + i)];
                     }
@@ -585,8 +543,8 @@ namespace Foundatio.Collections
         public void InsertRange(int index, IEnumerable<T> collection)
         {
             CheckNewIndexArgument(Count, index);
-            IReadOnlyCollection<T> readOnlyCollection = CollectionHelpers.ReifyCollection<T>(collection);
-            int count = readOnlyCollection.Count;
+            var readOnlyCollection = CollectionHelpers.ReifyCollection<T>(collection);
+            var count = readOnlyCollection.Count;
             if (count > Capacity - Count)
             {
                 Capacity = checked(Count + count);
@@ -632,7 +590,7 @@ namespace Foundatio.Collections
 
         public T[] ToArray()
         {
-            T[] array = new T[Count];
+            var array = new T[Count];
             ((ICollection<T>)this).CopyTo(array, 0);
             return array;
         }
