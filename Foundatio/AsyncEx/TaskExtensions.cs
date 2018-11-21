@@ -126,7 +126,7 @@ namespace Foundatio.AsyncEx
         /// <summary>
         /// Cancellable task.
         /// </summary>
-        /// <typeparam name="T">The type of the task results.</typeparam>
+        /// <typeparam name="TResult">The type of the task results.</typeparam>
         /// <param name="this">the cancellable task.</param>
         /// <param name="token">The cancellation token that cancels the task.</param>
         /// <returns></returns>
@@ -135,7 +135,7 @@ namespace Foundatio.AsyncEx
             var tcs = new TaskCompletionSource<TResult>(TaskCreationOptions.RunContinuationsAsynchronously);
             using (token.Register(state =>
             {
-                (state as TaskCompletionSource<object>).SetResult(null);
+                (state as TaskCompletionSource<object>)?.SetResult(null);
             }, tcs))
             {
                 var resultTask = await Task.WhenAny(@this, tcs.Task);
