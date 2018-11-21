@@ -6,7 +6,7 @@ namespace Foundatio.Collections
 {
     internal static class CollectionHelpers
     {
-        private sealed class NonGenericCollectionWrapper<T> : IReadOnlyCollection<T>, IEnumerable<T>, IEnumerable
+        private sealed class NonGenericCollectionWrapper<T> : IReadOnlyCollection<T>
         {
             private readonly ICollection _collection;
 
@@ -19,7 +19,7 @@ namespace Foundatio.Collections
 
             public IEnumerator<T> GetEnumerator()
             {
-                foreach (T item in this._collection)
+                foreach (T item in _collection)
                 {
                     yield return item;
                 }
