@@ -159,7 +159,7 @@ namespace Foundatio.AsyncEx
             var tcs = new TaskCompletionSource<object>(TaskCreationOptions.RunContinuationsAsynchronously);
             using (token.Register(state =>
             {
-                (state as TaskCompletionSource<object>).SetResult(null);
+                (state as TaskCompletionSource<object>)?.SetResult(null);
             }, tcs))
             {
                 var resultTask = await Task.WhenAny(@this, tcs.Task);
