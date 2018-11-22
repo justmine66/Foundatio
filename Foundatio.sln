@@ -5,7 +5,9 @@ VisualStudioVersion = 15.0.28307.102
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Foundatio", "Foundatio\Foundatio.csproj", "{98641678-5A0E-45D7-AE57-B7114A3D5D0E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Foundatio.ConsoleTest", "Foundatio.ConsoleTest\Foundatio.ConsoleTest.csproj", "{3B17EA09-83B8-4475-9013-878BF6CDCE40}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Foundatio.ConsoleTest", "Foundatio.ConsoleTest\Foundatio.ConsoleTest.csproj", "{3B17EA09-83B8-4475-9013-878BF6CDCE40}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Foundatio.UnitTest", "Foundatio.UnitTest\Foundatio.UnitTest.csproj", "{2B0E0874-04C7-42F9-A2D9-0AD74F44723C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{3B17EA09-83B8-4475-9013-878BF6CDCE40}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3B17EA09-83B8-4475-9013-878BF6CDCE40}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3B17EA09-83B8-4475-9013-878BF6CDCE40}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B0E0874-04C7-42F9-A2D9-0AD74F44723C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B0E0874-04C7-42F9-A2D9-0AD74F44723C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B0E0874-04C7-42F9-A2D9-0AD74F44723C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B0E0874-04C7-42F9-A2D9-0AD74F44723C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
