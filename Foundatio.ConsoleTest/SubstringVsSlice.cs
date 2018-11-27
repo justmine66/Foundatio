@@ -5,7 +5,7 @@ using System.Linq;
 namespace Foundatio.ConsoleTest
 {
     [MemoryDiagnoser]
-    public class SubstringVsSubslice
+    public class SubstringVsSlice
     {
         private string Text;
 
