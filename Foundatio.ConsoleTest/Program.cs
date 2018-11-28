@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BenchmarkDotNet.Running;
+using System;
 
 namespace Foundatio.ConsoleTest
 {
@@ -6,7 +7,12 @@ namespace Foundatio.ConsoleTest
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            //BenchmarkRunner.Run<SubstringVsSubslice>();
+            //BenchmarkRunner.Run<SpanGetVsArrayGet>();
+            //BenchmarkRunner.Run<SpanSetVsArraySet>();
+            BenchmarkRunner.Run<SpanVsArray_Indexer>();
+
+            Console.Read();   
         }
     }
 }

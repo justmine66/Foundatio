@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' />
+<title>Foundatio.ConsoleTest.SubstringVsSubslice</title>
+
+<style type="text/css">
+	table { border-collapse: collapse; display: block; width: 100%; overflow: auto; }
+	td, th { padding: 6px 13px; border: 1px solid #ddd; }
+	tr { background-color: #fff; border-top: 1px solid #ccc; }
+	tr:nth-child(even) { background: #f8f8f8; }
+</style>
+</head>
+<body>
+<pre><code>
+BenchmarkDotNet=v0.11.3, OS=Windows 10.0.17134.407 (1803/April2018Update/Redstone4)
+Intel Core i5-4210U CPU 1.70GHz (Haswell), 1 CPU, 4 logical and 2 physical cores
+.NET Core SDK=2.1.500
+  [Host]     : .NET Core 2.1.6 (CoreCLR 4.6.27019.06, CoreFX 4.6.27019.05), 64bit RyuJIT
+  DefaultJob : .NET Core 2.1.6 (CoreCLR 4.6.27019.06, CoreFX 4.6.27019.05), 64bit RyuJIT
+</code></pre>
+<pre><code></code></pre>
+
+<table>
+<thead><tr><th>Method</th><th>CharactersCount</th><th>Mean</th><th>Error</th><th>StdDev</th><th>Median</th><th>Ratio</th><th>RatioSD</th><th>Gen 0/1k Op</th><th>Gen 1/1k Op</th><th>Gen 2/1k Op</th><th>Allocated Memory/Op</th>
+</tr>
+</thead><tbody><tr><td>Substring</td><td>10</td><td>22.141 ns</td><td>0.8948 ns</td><td>2.5673 ns</td><td>21.404 ns</td><td>9.77</td><td>1.47</td><td>0.0254</td><td>-</td><td>-</td><td>40 B</td>
+</tr><tr><td>Slice</td><td>10</td><td>2.270 ns</td><td>0.0912 ns</td><td>0.1447 ns</td><td>2.242 ns</td><td>1.00</td><td>0.00</td><td>-</td><td>-</td><td>-</td><td>-</td>
+</tr><tr><td>Substring</td><td>1000</td><td>208.534 ns</td><td>6.2942 ns</td><td>18.1601 ns</td><td>198.993 ns</td><td>109.43</td><td>11.43</td><td>0.6557</td><td>-</td><td>-</td><td>1032 B</td>
+</tr><tr><td>Slice</td><td>1000</td><td>2.110 ns</td><td>0.0706 ns</td><td>0.0589 ns</td><td>2.104 ns</td><td>1.00</td><td>0.00</td><td>-</td><td>-</td><td>-</td><td>-</td>
+</tr></tbody></table>
+</body>
+</html>
