@@ -53,14 +53,13 @@ namespace Foundatio.ConsoleTest
 
     public class IntParser : IIntParser
     {
-        public int Parse(Span<char> managedMemory)
+        public int Parse(Span<char> text)
         {
             throw new NotImplementedException();
         }
 
-        public int Parse(Span<char> , int startIndex, int length)
+        public int Parse(Span<char> text, int startIndex, int length)
         {
-            ArraySegment<byte>
             throw new NotImplementedException();
         }
     }
@@ -68,7 +67,7 @@ namespace Foundatio.ConsoleTest
     public interface IIntParser
     {
         int Parse(Span<char> managedMemory);
-        int Parse(Span<char>, int startIndex, int length);
+        int Parse(Span<char> text, int startIndex, int length);
     }
 
     public interface MemoryblockCopier
